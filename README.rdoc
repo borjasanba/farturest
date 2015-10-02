@@ -1,0 +1,41 @@
+== README
+
+This README would normally document whatever steps are necessary to get the
+application up and running.
+
+Things you may want to cover:
+
+* Ruby version
+
+* System dependencies
+
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...
+
+
+Please feel free to use a different markup language if you do not plan to run
+<tt>rake doc:app</tt>.
+
+
+get token:
+curl -i  http://localhost:3000/oauth/token -F grant_type=password -F username=test@test.com -F password=password
+
+create/update profile
+curl -v -H "Content-Type: application/json" -X POST -d '{"profile": {"name": "prueba"}}' http://localhost:3000/api/v1/profile/create_update.json
+
+create user
+curl -v -H "Content-Type: application/json" -X POST -d '{"user": {"email": "pruebapost@prueba.com", "password": "password", "password_confirmation": "password"}}' http://localhost:3000/users
+
+create evaluation
+curl -v -H "Content-Type: application/json" -X POST -d '{"evaluation": {"rate": 3, "target_profile_id": 9}}' http://localhost:3000/api/v1/evaluation/create.json?access_token=
