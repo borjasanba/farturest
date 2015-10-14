@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  profile_id: 
+  text_short: MyString
+  text_long: MyText
+  capacity: 1
+  date_finish: 2015-10-09 11:28:10
+
+two:
+  profile_id: 
+  text_short: MyString
+  text_long: MyText
+  capacity: 1
+  date_finish: 2015-10-09 11:28:10

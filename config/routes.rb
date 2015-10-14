@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       post 'profile/create_update'
       get '/getEvaluationsByProfile/:target_profile_id' => 'evaluation#getEvaluationsByProfile'
       post 'evaluation/create'
+      get '/getItemsByLocation/' => 'item#getItemsByLocation'
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

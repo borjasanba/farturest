@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151001095446) do
+ActiveRecord::Schema.define(version: 20151009092810) do
 
   create_table "evaluations", force: :cascade do |t|
     t.integer  "rate",              limit: 4,     null: false
@@ -24,6 +24,23 @@ ActiveRecord::Schema.define(version: 20151001095446) do
 
   add_index "evaluations", ["source_profile_id"], name: "index_evaluations_on_source_profile_id", using: :btree
   add_index "evaluations", ["target_profile_id"], name: "index_evaluations_on_target_profile_id", using: :btree
+
+  create_table "items", force: :cascade do |t|
+    t.integer  "profile_id",  limit: 4,                               null: false
+    t.string   "text_short",  limit: 255,                             null: false
+    t.text     "text_long",   limit: 65535
+    t.integer  "capacity",    limit: 4,                               null: false
+    t.datetime "date_finish",                                         null: false
+    t.decimal  "latitude",                  precision: 15, scale: 10, null: false
+    t.decimal  "longitude",                 precision: 15, scale: 10, null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+  end
+
+  add_index "items", ["latitude", "longitude"], name: "index_items_on_latitude_and_longitude", using: :btree
+  add_index "items", ["latitude"], name: "index_items_on_latitude", using: :btree
+  add_index "items", ["longitude"], name: "index_items_on_longitude", using: :btree
+  add_index "items", ["profile_id"], name: "index_items_on_profile_id", using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", limit: 4,     null: false
@@ -95,5 +112,6 @@ ActiveRecord::Schema.define(version: 20151001095446) do
 
   add_foreign_key "evaluations", "profiles", column: "source_profile_id"
   add_foreign_key "evaluations", "profiles", column: "target_profile_id"
+  add_foreign_key "items", "profiles"
   add_foreign_key "profiles", "users"
 end
