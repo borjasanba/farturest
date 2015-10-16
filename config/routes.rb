@@ -5,8 +5,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get '/myProfile' => 'profile#myProfile'
+	  get '/myAvatar' => 'profile#myAvatar'
       get '/getProfileById/:id' => 'profile#getProfileById'
       post 'profile/create_update'
+	  post 'profile/update_avatar'
       get '/getEvaluationsByProfile/:target_profile_id' => 'evaluation#getEvaluationsByProfile'
       post 'evaluation/create'
       get '/getItemsByLocation/' => 'item#getItemsByLocation'
