@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151009092810) do
+ActiveRecord::Schema.define(version: 20151014093719) do
 
   create_table "evaluations", force: :cascade do |t|
     t.integer  "rate",              limit: 4,     null: false
@@ -83,12 +83,17 @@ ActiveRecord::Schema.define(version: 20151009092810) do
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "profiles", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.integer  "user_id",    limit: 4,   null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "age",        limit: 4
-    t.string   "speciality", limit: 255
+    t.string   "name",                limit: 255
+    t.integer  "user_id",             limit: 4,   null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "age",                 limit: 4
+    t.string   "speciality",          limit: 255
+    t.integer  "gender",              limit: 1
+    t.string   "avatar_file_name",    limit: 255
+    t.string   "avatar_content_type", limit: 255
+    t.integer  "avatar_file_size",    limit: 4
+    t.datetime "avatar_updated_at"
   end
 
   add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree
