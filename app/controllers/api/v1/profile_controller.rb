@@ -3,7 +3,11 @@ class Api::V1::ProfileController < ApplicationController
 
   def myProfile
     #render json: User.find(doorkeeper_token.resource_owner_id).as_json
-    render json: Profile.where(user_id: doorkeeper_token.resource_owner_id).as_json
+    @profile = Profile.where(user_id: doorkeeper_token.resource_owner_id)
+    #render json: @profile.as_json
+    respond_to do |format|
+        format.json { render :json => @profile.as_json(:only => [:id, :name, :age, :speciality, :gender, :avatar], :methods => [:avatar_url])}
+    end
   end
 
   def getProfileById
@@ -24,7 +28,7 @@ class Api::V1::ProfileController < ApplicationController
 
   def update_avatar
 	   @profile = Profile.where(user_id: doorkeeper_token.resource_owner_id).first_or_initialize
-	    avatar = params[:avatar]
+	    avatar = params[:file]
 
 	     attachment = {
          :filename => avatar.original_filename,
@@ -55,5 +59,5 @@ class Api::V1::ProfileController < ApplicationController
     def profile_params
       params.require(:profile).permit(:name, :age, :speciality)
     end
-	
+
 end
