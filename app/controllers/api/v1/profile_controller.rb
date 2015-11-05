@@ -2,16 +2,17 @@ class Api::V1::ProfileController < ApplicationController
   before_action :doorkeeper_authorize!
 
   def myProfile
-    #render json: User.find(doorkeeper_token.resource_owner_id).as_json
     @profile = Profile.where(user_id: doorkeeper_token.resource_owner_id)
-    #render json: @profile.as_json
     respond_to do |format|
-        format.json { render :json => @profile.as_json(:only => [:id, :name, :age, :speciality, :gender, :avatar], :methods => [:avatar_url])}
+        format.json { render :json => @profile.as_json(:only => [:id, :name, :age, :speciality, :gender, :avatar], :methods => [:avatar_url, :num_evaluations, :num_items])}
     end
   end
 
   def getProfileById
-      render json: Profile.find_by_id(params[:id])
+    @profile = Profile.where(id: params[:id])
+    respond_to do |format|
+        format.json { render :json => @profile.as_json(:only => [:id, :name, :age, :speciality, :gender, :avatar], :methods => [:avatar_url, :num_evaluations, :num_items])}
+    end
   end
 
   def create_update

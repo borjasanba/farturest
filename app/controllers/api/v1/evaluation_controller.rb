@@ -2,7 +2,12 @@ class Api::V1::EvaluationController < ApplicationController
   before_action :doorkeeper_authorize!
 
   def getEvaluationsByProfile
-      render json: Evaluation.where(target_profile_id: params[:target_profile_id])
+      @evaluations = Evaluation.where(target_profile_id: params[:target_profile_id]).joins(:source_profile)
+      .select('evaluations.rate, evaluations.comment, evaluations.created_at, evaluations.target_profile_id, profiles.name')
+
+      respond_to do |format|
+          format.json { render :json => @evaluations.as_json(:only => [:rate, :comment, :created_at, :target_profile_id, :name])}
+      end
   end
 
   def create

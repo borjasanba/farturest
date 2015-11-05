@@ -25,21 +25,29 @@ ActiveRecord::Schema.define(version: 20151014093719) do
   add_index "evaluations", ["source_profile_id"], name: "index_evaluations_on_source_profile_id", using: :btree
   add_index "evaluations", ["target_profile_id"], name: "index_evaluations_on_target_profile_id", using: :btree
 
-  create_table "items", force: :cascade do |t|
-    t.integer  "profile_id",  limit: 4,                               null: false
-    t.string   "text_short",  limit: 255,                             null: false
-    t.text     "text_long",   limit: 65535
-    t.integer  "capacity",    limit: 4,                               null: false
-    t.datetime "date_finish",                                         null: false
-    t.decimal  "latitude",                  precision: 15, scale: 10, null: false
-    t.decimal  "longitude",                 precision: 15, scale: 10, null: false
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+  create_table "item_location", force: :cascade do |t|
+    t.integer  "item_id",     limit: 4,                           null: false
+    t.integer  "capacity",    limit: 4,                           null: false
+    t.datetime "date_finish",                                     null: false
+    t.decimal  "latitude",              precision: 15, scale: 10, null: false
+    t.decimal  "longitude",             precision: 15, scale: 10, null: false
   end
 
-  add_index "items", ["latitude", "longitude"], name: "index_items_on_latitude_and_longitude", using: :btree
-  add_index "items", ["latitude"], name: "index_items_on_latitude", using: :btree
-  add_index "items", ["longitude"], name: "index_items_on_longitude", using: :btree
+  add_index "item_location", ["item_id"], name: "index_item_location_on_item_id", using: :btree
+  add_index "item_location", ["latitude", "longitude"], name: "index_item_location_on_latitude_and_longitude", using: :btree
+  add_index "item_location", ["latitude"], name: "index_item_location_on_latitude", using: :btree
+  add_index "item_location", ["longitude"], name: "index_item_location_on_longitude", using: :btree
+
+  create_table "items", force: :cascade do |t|
+    t.integer  "profile_id",           limit: 4,     null: false
+    t.string   "text_short",           limit: 255,   null: false
+    t.text     "text_long",            limit: 65535
+    t.string   "picture_file_name",    limit: 255
+    t.string   "picture_content_type", limit: 255
+    t.integer  "picture_file_size",    limit: 4
+    t.datetime "picture_updated_at"
+  end
+
   add_index "items", ["profile_id"], name: "index_items_on_profile_id", using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -117,6 +125,7 @@ ActiveRecord::Schema.define(version: 20151014093719) do
 
   add_foreign_key "evaluations", "profiles", column: "source_profile_id"
   add_foreign_key "evaluations", "profiles", column: "target_profile_id"
+  add_foreign_key "item_location", "items"
   add_foreign_key "items", "profiles"
   add_foreign_key "profiles", "users"
 end
