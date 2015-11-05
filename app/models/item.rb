@@ -1,5 +1,6 @@
 class Item < ActiveRecord::Base
   belongs_to :profile
+  belongs_to :category
 
   has_attached_file :picture, :path => ":rails_root/public/pictures/:id/:style/:basename.:extension",
   :url => "/pictures/:id/:style/:basename.:extension",

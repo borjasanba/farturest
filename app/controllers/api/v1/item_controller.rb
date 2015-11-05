@@ -12,9 +12,9 @@ class Api::V1::ItemController < ApplicationController
   #  render json: @items
   #end
   def getItemsByProfile
-    @items = Item.where(profile_id: params[:profileId])
+    @items = Item.where(profile_id: params[:profileId]).joins(:category).select('items.*, categories.name')
     respond_to do |format|
-        format.json { render :json => @items.as_json(:only => [:id, :profile_id, :text_short, :text_long, :picture], :methods => [:picture_url])}
+        format.json { render :json => @items.as_json(:only => [:id, :profile_id, :text_short, :text_long, :price, :picture, :name], :methods => [:picture_url])}
     end
   end
 

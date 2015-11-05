@@ -13,6 +13,10 @@
 
 ActiveRecord::Schema.define(version: 20151014093719) do
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name", limit: 255, null: false
+  end
+
   create_table "evaluations", force: :cascade do |t|
     t.integer  "rate",              limit: 4,     null: false
     t.text     "comment",           limit: 65535
@@ -39,15 +43,18 @@ ActiveRecord::Schema.define(version: 20151014093719) do
   add_index "item_location", ["longitude"], name: "index_item_location_on_longitude", using: :btree
 
   create_table "items", force: :cascade do |t|
-    t.integer  "profile_id",           limit: 4,     null: false
-    t.string   "text_short",           limit: 255,   null: false
+    t.integer  "profile_id",           limit: 4,                             null: false
+    t.integer  "category_id",          limit: 4,                             null: false
+    t.string   "text_short",           limit: 255,                           null: false
     t.text     "text_long",            limit: 65535
+    t.decimal  "price",                              precision: 3, scale: 2, null: false
     t.string   "picture_file_name",    limit: 255
     t.string   "picture_content_type", limit: 255
     t.integer  "picture_file_size",    limit: 4
     t.datetime "picture_updated_at"
   end
 
+  add_index "items", ["category_id"], name: "index_items_on_category_id", using: :btree
   add_index "items", ["profile_id"], name: "index_items_on_profile_id", using: :btree
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -126,6 +133,7 @@ ActiveRecord::Schema.define(version: 20151014093719) do
   add_foreign_key "evaluations", "profiles", column: "source_profile_id"
   add_foreign_key "evaluations", "profiles", column: "target_profile_id"
   add_foreign_key "item_location", "items"
+  add_foreign_key "items", "categories"
   add_foreign_key "items", "profiles"
   add_foreign_key "profiles", "users"
 end
